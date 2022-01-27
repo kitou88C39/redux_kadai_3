@@ -5,7 +5,7 @@ import "./index.css";
 //import { Provider } from "react-redux";
 //import store from "./redux/store";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-//import Login from "./auth/Login";
+import Login from "./auth/Login";
 import SignUp from "./auth/SignUp";
 import { AuthProvider } from "./auth/AuthProvider";
 
@@ -17,7 +17,7 @@ ReactDOM.render(
       <AuthProvider>
         <Routes>
           {/* <Route path="/" element={<App />} /> */}
-          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
       </AuthProvider>
