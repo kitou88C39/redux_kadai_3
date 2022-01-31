@@ -30,7 +30,7 @@ const Header = () => {
           </Typography>
           <div style={{ flexGrow: 1 }}></div>
           <Button variant="text" color="inherit" onClick={handleClick}>
-            SignOut
+            LogOut
           </Button>
         </Toolbar>
       </AppBar>
