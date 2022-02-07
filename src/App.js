@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DisplayTodos from "./components/DisplayTodos";
 import Header from "./components/Header";
 import Todos from "./components/Todos";
 import { motion } from "framer-motion";
@@ -24,6 +25,7 @@ function App() {
           transition={{ type: "spring", duration: 1 }}
         >
           <Todos count={myCount} setCount={setMyCount} />
+          <DisplayTodos count={myCount} setCount={setMyCount} />
         </motion.div>
       </div>
     </div>
