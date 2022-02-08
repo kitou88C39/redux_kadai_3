@@ -20,13 +20,13 @@ const style = {
 };
 
 // 対象の受取人のWalletダイアログ
-const AddTodoWalletDialog = ({ isOpen, addTodo, handleClose }) => {
+const AddTodoWalletDialog = ({ isWalletOpen, addTodo, handleClose }) => {
   if (!addTodo) return null;
   console.log(addTodo);
   return (
     <Modal
       className="wallet"
-      isOpen={isOpen}
+      isOpen={isWalletOpen}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -66,13 +66,13 @@ const TodoItem = (props) => {
   const [balance, setBalance] = useState(0);
   const [num, setNum] = useState(100);
   const [open, setOpen] = React.useState(false);
-  const [IsOpen, setIsOpen] = React.useState(false);
+  const [IsWalletOpen, setIsWalletOpen] = React.useState(false);
   const [targetTodo, setTargetTodo] = React.useState(null);
 
   const inputRef = useRef(true);
 
   const changeFocus = () => {
-    setIsOpen(true);
+    setIsWalletOpen(true);
     setTargetTodo(item);
   };
 
@@ -99,7 +99,7 @@ const TodoItem = (props) => {
   };
 
   const handleClose = () => {
-    setIsOpen(false);
+    setIsWalletOpen(false);
   };
 
   const handleClickTransferButton = () => {
@@ -141,7 +141,7 @@ const TodoItem = (props) => {
         {item.completed && <span className="completed">done</span>}
       </li>
       <AddTodoWalletDialog
-        isOpen={IsOpen}
+        isWalletOpen={IsWalletOpen}
         addTodo={targetTodo}
         handleClose={handleClose}
       />

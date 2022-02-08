@@ -5,12 +5,7 @@
 //balance 受取人の残高
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import {
-  addTodos,
-  // completeTodos,
-  removeTodos,
-  updateTodos,
-} from "../redux/reducer";
+import { addTodos, removeTodos, updateTodos } from "../redux/reducer";
 import TodoItem from "./TodoItem";
 
 const mapStateToProps = (state) => {
@@ -24,7 +19,6 @@ const mapDispatchToProps = (dispatch) => {
     addTodo: (obj) => dispatch(addTodos(obj)),
     removeTodo: (id) => dispatch(removeTodos(id)),
     updateTodo: (obj) => dispatch(updateTodos(obj)),
-    //completeTodo: (id) => dispatch(completeTodos(id)),
   };
 };
 const DisplayTodos = (props) => {
@@ -33,11 +27,6 @@ const DisplayTodos = (props) => {
 
   return (
     <div className="displaytodos">
-      {/* <div className="buttons">
-        <button onClick={() => setSort("active")}>Active</button>
-        <button onClick={() => setSort("completed")}>Completed</button>
-        <button onClick={() => setSort("all")}>All</button>
-      </div> */}
       <ol style={{ display: "inline-block" }}>
         {props.todos.length > 0 && sort === "active"
           ? props.todos.map((item) => {
@@ -50,7 +39,6 @@ const DisplayTodos = (props) => {
                     count={count}
                     setCount={setCount}
                     updateTodo={props.updateTodo}
-                    //completeTodo={props.completeTodo}
                   />
                 )
               );
@@ -66,8 +54,6 @@ const DisplayTodos = (props) => {
                     removeTodo={props.removeTodo}
                     count={count}
                     setCount={setCount}
-                    //updataTodo={props.updataTodo}
-                    //completeTodo={props.completeTodo}
                   />
                 )
               );
@@ -82,8 +68,6 @@ const DisplayTodos = (props) => {
                   removeTodo={props.removeTodo}
                   count={count}
                   setCount={setCount}
-                  //updataTodo={props.updataTodo}
-                  //completeTodo={props.completeTodo}
                 />
               );
             })

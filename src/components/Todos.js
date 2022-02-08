@@ -61,7 +61,6 @@ const Todos = (props) => {
       <div style={{ textAlign: "center" }}>
         <div className="balance-list">
           <h2>
-            {/* {display.name} */}
             {currentUser?.displayName ?? "未ログイン"}
             さんの残高 : {count} 円{" "}
           </h2>
