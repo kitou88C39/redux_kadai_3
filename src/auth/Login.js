@@ -24,10 +24,6 @@ const Login = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   login(email, password, navigate);
-
   async function handleSubmit(event) {
     event.preventDefault();
     await login(email, password, navigate);
