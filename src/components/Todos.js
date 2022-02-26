@@ -3,14 +3,12 @@
 //count 送金者の残高
 //num　送金者の入金及び出勤額
 //balance 受取人の残高
-import React, { useContext, useEffect, useState } from "react";
-//import React, { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { connect } from "react-redux";
 import { addTodos } from "../redux/reducer";
 import { Box, TextField, Button } from "@mui/material";
-import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import { AuthContext } from "../auth/AuthProvider";
+import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
 
 const mapStateToProps = (state) => {
   return {
@@ -41,6 +39,20 @@ const Todos = (props) => {
   const onCountDown = () => {
     setCount(count - num);
   };
+
+  const firestore = useFirestore();
+  const addTodo = () => {
+    return firestore.add("addTodo", {
+      idCount: 1,
+      item: todo,
+      completed: false,
+      balance: 0,
+    });
+  };
+  useFirestoreConnect({
+    collection: "addTodo",
+    where: [["todo", "==", "0"]],
+  });
 
   const add = () => {
     if (todo === "") {
