@@ -3,27 +3,32 @@
 //count 送金者の残高
 //num　送金者の入金及び出勤額
 //balance 受取人の残高
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { addTodos } from "../redux/reducer";
+import { addTodos, onCountDown, onCountUp } from "../redux/reducer";
 import { Box, TextField, Button } from "@mui/material";
 import { AuthContext } from "../auth/AuthProvider";
 import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
+import { db } from "../firebase";
+import { onSnapshot, collection, query } from "firebase/firestore";
 
 const mapStateToProps = (state) => {
   return {
     todos: state?.todos,
+    counter: state?.counter,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addTodo: (obj) => dispatch(addTodos(obj)),
+    onCountUp: (obj) => dispatch(onCountUp(obj)),
+    onCountDown: (obj) => dispatch(onCountDown(obj)),
   };
 };
 
 const Todos = (props) => {
-  const { count, setCount } = props;
+  const { counter } = props;
   const [todo, setTodo] = useState("");
   // Contextからログインユーザを取得
   const { currentUser } = useContext(AuthContext);
@@ -33,14 +38,25 @@ const Todos = (props) => {
   };
 
   const [num, setNum] = useState(100);
-  const onCountUp = () => {
-    setCount(count + num);
-  };
-  const onCountDown = () => {
-    setCount(count - num);
-  };
+  // const onCountUp = () => {
+  //   setCount(count + num);
+  // };
+  // const onCountDown = () => {
+  //   setCount(count - num);
+  // };
 
   const firestore = useFirestore();
+  useEffect(() => {
+    const q = query(collection(db, "senders"));
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log("data", data);
+      });
+      return unsub;
+    });
+  });
+
   const addTodo = () => {
     return firestore.add("addTodo", {
       idCount: 1,
@@ -74,7 +90,7 @@ const Todos = (props) => {
         <div className="balance-list">
           <h2>
             {currentUser?.displayName ?? "未ログイン"}
-            さんの残高 : {count} 円{" "}
+            さんの残高 : {counter.value} 円{" "}
           </h2>
           <Box
             component="form"
@@ -91,10 +107,18 @@ const Todos = (props) => {
               onChange={(e) => setNum(Number(e.target.value))}
             />
           </Box>
-          <Button onClick={onCountUp} variant="outlined" color="primary">
+          <Button
+            onClick={() => props.onCountUp(num)}
+            variant="outlined"
+            color="primary"
+          >
             Increment
           </Button>
-          <Button onClick={onCountDown} variant="outlined" color="secondary">
+          <Button
+            onClick={() => props.onCountDown(num)}
+            variant="outlined"
+            color="secondary"
+          >
             Decrement
           </Button>
         </div>
