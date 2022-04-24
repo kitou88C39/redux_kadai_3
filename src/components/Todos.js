@@ -3,14 +3,14 @@
 //count 送金者の残高
 //num　送金者の入金及び出勤額
 //balance 受取人の残高
-import React, { useContext, useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { addTodos, onCountDown, onCountUp } from "../redux/reducer";
-import { Box, TextField, Button } from "@mui/material";
-import { AuthContext } from "../auth/AuthProvider";
-import { useFirestoreConnect, useFirestore } from "react-redux-firebase";
-import { db } from "../firebase";
-import { onSnapshot, collection, query } from "firebase/firestore";
+import React, { useContext, useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { addTodos, onCountDown, onCountUp } from '../redux/reducer';
+import { Box, TextField, Button } from '@mui/material';
+import { AuthContext } from '../auth/AuthProvider';
+import { useFirestoreConnect, useFirestore } from 'react-redux-firebase';
+import { db } from '../firebase';
+import { onSnapshot, collection, query } from 'firebase/firestore';
 
 const mapStateToProps = (state) => {
   return {
@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const Todos = (props) => {
   const { counter } = props;
-  const [todo, setTodo] = useState("");
+  const [todo, setTodo] = useState('');
   // Contextからログインユーザを取得
   const { currentUser } = useContext(AuthContext);
 
@@ -38,27 +38,20 @@ const Todos = (props) => {
   };
 
   const [num, setNum] = useState(100);
-  // const onCountUp = () => {
-  //   setCount(count + num);
-  // };
-  // const onCountDown = () => {
-  //   setCount(count - num);
-  // };
 
   const firestore = useFirestore();
   useEffect(() => {
-    const q = query(collection(db, "senders"));
+    const q = query(collection(db, 'senders'));
     const unsub = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        console.log("data", data);
       });
       return unsub;
     });
   });
 
   const addTodo = () => {
-    return firestore.add("addTodo", {
+    return firestore.add('addTodo', {
       idCount: 1,
       item: todo,
       completed: false,
@@ -66,13 +59,13 @@ const Todos = (props) => {
     });
   };
   useFirestoreConnect({
-    collection: "addTodo",
-    where: [["todo", "==", "0"]],
+    collection: 'addTodo',
+    where: [['todo', '==', '0']],
   });
 
   const add = () => {
-    if (todo === "") {
-      alert("Input is Empty");
+    if (todo === '') {
+      alert('Input is Empty');
     } else {
       props.addTodo({
         id: Math.floor(Math.random() * 1000),
@@ -80,72 +73,72 @@ const Todos = (props) => {
         completed: false,
         balance: 0,
       });
-      setTodo("");
+      setTodo('');
     }
   };
 
   return (
     <>
-      <div style={{ textAlign: "center" }}>
-        <div className="balance-list">
+      <div style={{ textAlign: 'center' }}>
+        <div className='balance-list'>
           <h2>
-            {currentUser?.displayName ?? "未ログイン"}
-            さんの残高 : {counter.value} 円{" "}
+            {currentUser?.displayName ?? '未ログイン'}
+            さんの残高 : {counter.value} 円
           </h2>
           <Box
-            component="form"
+            component='form'
             sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
+              '& > :not(style)': { m: 1, width: '25ch' },
             }}
             noValidate
-            autoComplete="off"
+            autoComplete='off'
           >
             <TextField
-              label="入出金額"
-              variant="outlined"
+              label='入出金額'
+              variant='outlined'
               value={num}
               onChange={(e) => setNum(Number(e.target.value))}
             />
           </Box>
           <Button
             onClick={() => props.onCountUp(num)}
-            variant="outlined"
-            color="primary"
+            variant='outlined'
+            color='primary'
           >
             Increment
           </Button>
           <Button
             onClick={() => props.onCountDown(num)}
-            variant="outlined"
-            color="secondary"
+            variant='outlined'
+            color='secondary'
           >
             Decrement
           </Button>
         </div>
-        <div className="addTodos">
+        <div className='addTodos'>
           <h2>受取人一覧</h2>
           <Box
-            component="form"
+            component='form'
             sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
+              '& > :not(style)': { m: 1, width: '25ch' },
             }}
             noValidate
-            autoComplete="off"
+            autoComplete='off'
           >
             <TextField
-              id="outlined-basic"
-              label="受取人を入力してください"
-              variant="outlined"
-              type="text"
+              id='outlined-basic'
+              label='受取人を入力してください'
+              variant='outlined'
+              type='text'
               onChange={(e) => handleChange(e)}
-              className="todo-input"
+              className='todo-input'
               value={todo}
             />
           </Box>
           <Button
-            variant="outlined"
-            color="primary"
-            className="add-btn"
+            variant='outlined'
+            color='primary'
+            className='add-btn'
             onClick={() => add()}
           >
             受取人追加
