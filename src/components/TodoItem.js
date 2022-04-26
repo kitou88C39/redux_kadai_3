@@ -4,7 +4,18 @@
 //balance 受取人の残高
 import React, { useState, useRef, useContext } from "react";
 import Modal from "react-modal";
-import { Box, Button, Dialog, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  ButtonGroup,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 import { AuthContext } from "../auth/AuthProvider";
 
 const style = {
@@ -58,7 +69,50 @@ const AddTodoTransferDialog = ({
 }) => {
   const { currentUser } = useContext(AuthContext);
   if (!addTodo) return null;
-  return <Dialog open={open} onClose={handleClickClose}></Dialog>;
+  return (
+    <Dialog open={open} onClose={handleClickClose}>
+      <DialogTitle>{addTodo.addTodos}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          {currentUser?.displayName ?? "未ログイン"}の残高: {count} 円
+        </DialogContentText>
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "25ch" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            className="balance"
+            id="outlined-basic"
+            label="振込金額を入力してください"
+            variant="outlined"
+            value={num}
+            onChange={(e) => setNum(Number(e.target.value))}
+          />
+        </Box>
+      </DialogContent>
+      <ButtonGroup
+        variant="outlined"
+        color="primary"
+        aria-label="outlined primary button group"
+      ></ButtonGroup>
+      <DialogActions>
+        <Button variant="outlined" color="secondary" onClick={handleClickClose}>
+          Cancel
+        </Button>
+        <Button
+          onClick={handleClickTransferButton}
+          variant="outlined"
+          color="primary"
+        >
+          振込
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };
 
 const TodoItem = (props) => {
