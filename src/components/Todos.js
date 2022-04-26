@@ -22,8 +22,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addTodo: (obj) => dispatch(addTodos(obj)),
-    onCountUp: (obj) => dispatch(onCountUp(obj)),
-    onCountDown: (obj) => dispatch(onCountDown(obj)),
+    onCountUp: (addCount) => dispatch(onCountUp(addCount)),
+    onCountDown: (subtractCount) => dispatch(onCountDown(subtractCount)),
   };
 };
 
